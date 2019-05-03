@@ -31,7 +31,7 @@ class OpenGLTestCase(unittest.TestCase):
         viewport_dimensions = glGetIntegerv(GL_VIEWPORT)
         width = viewport_dimensions[2]-viewport_dimensions[0]
         height = viewport_dimensions[3]-viewport_dimensions[1]
-        result = self.get_rendered_image_as_bytes()
+        result = self.get_rendered_image()
         result_image = pygame.image.fromstring(result, (width, height), "RGB", True)
         test_class_name = inspect.currentframe().f_locals["self"].__class__.__name__
         test_name = inspect.currentframe().f_back.f_code.co_name
