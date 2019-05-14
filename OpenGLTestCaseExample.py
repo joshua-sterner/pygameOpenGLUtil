@@ -28,7 +28,8 @@ def renderTriangle():
     number_of_values_per_vertex = 2
     size_of_vertex_in_bytes = sizeof(c_float)*2
     offset_into_vertex_data = c_void_p(0)
-    glVertexPointer(number_of_values_per_vertex, GL_FLOAT, size_of_vertex_in_bytes, offset_into_vertex_data)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, number_of_values_per_vertex, GL_FLOAT, GL_FALSE, size_of_vertex_in_bytes, offset_into_vertex_data)
 
     # Modern OpenGL Requires a minimum of a vertex shader and a fragment shader rendering
     
@@ -64,9 +65,6 @@ def renderTriangle():
     
     shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
 
-    # Vertex arrays must be enabled before attempting to render from one
-    glEnableClientState(GL_VERTEX_ARRAY)
-    
     # Tell OpenGL to use the created shader program
     glUseProgram(shader_program)
 
