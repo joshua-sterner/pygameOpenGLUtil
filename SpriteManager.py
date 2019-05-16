@@ -1,6 +1,7 @@
 import pygame
 from OpenGL.GL import *
 
+
 class Sprite:
     def __init__(self, sprite_manager):
         self.width = 0
@@ -27,7 +28,8 @@ class Sprite:
 
         # Notify manager of change from old spritemap
         self.manager._spritemap_changed(self, old_spritemap)
-    
+
+
 class SpriteMap:
     def __init__(self, image):
         """Image is expected to be a pygame.image"""
@@ -39,14 +41,16 @@ class SpriteMap:
     def __del__(self):
         # Delete image from gpu memory
         glDeleteTextures(self.glTexture)
-    
+
     def load_image(self, image):
-        """Replaces the image in the SpriteMap. image is expected to be a pygame.image."""
+        """Replaces the image in the SpriteMap. image is expected to be a
+        pygame.image."""
         self.width = image.get_width()
         self.height = image.get_height()
         image_data = pygame.image.tostring(image, "RGBA", True)
         self.bind()
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0,
+                     GL_RGBA, GL_UNSIGNED_BYTE, image_data)
         self.unbind()
 
     def bind(self):
@@ -57,12 +61,14 @@ class SpriteMap:
         """Unbind the active OpenGL texture unit."""
         glBindTexture(GL_TEXTURE_2D, 0)
 
-    
+
 class SpriteManager:
-    """Creates and stores sprites, organized by spritemap for efficient rendering."""
+    """Creates and stores sprites, organized by spritemap for efficient
+    rendering."""
 
     def __init__(self):
-        self.sprites = {} # Dictionary of lists of Sprites indexed by SpriteMap
+        # Dictionary of lists of Sprites indexed by SpriteMap
+        self.sprites = {}
 
     def create_sprite(self):
         """Returns a new Sprite object managed by this SpriteManager."""

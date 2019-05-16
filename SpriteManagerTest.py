@@ -6,9 +6,11 @@ from OpenGL.GL import *
 import OpenGLTestCase
 from SpriteManager import *
 
+
 def make_spritemap():
     image = pygame.image.load("test.png")
     return SpriteMap(image)
+
 
 class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
     def setUp(self):
@@ -21,15 +23,15 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
 
         boundTexture = glGetIntegerv(GL_TEXTURE_BINDING_2D)
         self.assertNotEqual(boundTexture, 0)
-    
+
     def test_spritemap_glTexture_non_zero(self):
         spritemap = make_spritemap()
-        
+
         self.assertTrue(spritemap.glTexture > 0)
 
     def test_spritemap_glTexture_is_valid_texture(self):
         spritemap = make_spritemap()
-        
+
         self.assertTrue(glIsTexture(spritemap.glTexture))
 
     def test_spritemap_constructor_unbinds_texture(self):
@@ -46,13 +48,14 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
 
         boundTexture = glGetIntegerv(GL_TEXTURE_BINDING_2D)
         self.assertEqual(boundTexture, 0)
-    
+
     def test_init_loads_image_into_texture(self):
         image = pygame.image.load("test.png")
         spritemap = SpriteMap(image)
         image_bytes = pygame.image.tostring(image, "RGBA", True)
         spritemap.bind()
-        stored_bytes = glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE)
+        stored_bytes = glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA,
+                                     GL_UNSIGNED_BYTE)
         spritemap.unbind()
         self.assertEqual(image_bytes, stored_bytes)
 
@@ -63,7 +66,7 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         del spritemap
 
         self.assertFalse(glIsTexture(glTexture))
-    
+
     def test_init_sets_correct_width(self):
         image = pygame.image.load("test.png")
         spritemap = SpriteMap(image)
@@ -93,7 +96,8 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         spritemap, image2 = self.load_image_test_setup()
         image2_bytes = pygame.image.tostring(image2, "RGBA", True)
         spritemap.bind()
-        stored_bytes = glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE)
+        stored_bytes = glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA,
+                                     GL_UNSIGNED_BYTE)
         spritemap.unbind()
         self.assertEqual(image2_bytes, stored_bytes)
 
@@ -101,6 +105,7 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         spritemap, image2 = self.load_image_test_setup()
         boundTexture = glGetIntegerv(GL_TEXTURE_BINDING_2D)
         self.assertEqual(boundTexture, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
