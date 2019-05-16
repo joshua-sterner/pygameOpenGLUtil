@@ -2,7 +2,7 @@ import pygame
 from OpenGL.GL import *
 
 
-class SpriteMap:
+class Texture:
     def __init__(self, image):
         """Image is expected to be a pygame.image"""
         self.width = image.get_width()
