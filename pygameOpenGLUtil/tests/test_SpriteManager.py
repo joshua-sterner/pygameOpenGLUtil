@@ -3,21 +3,23 @@
 import pygame
 import unittest
 from OpenGL.GL import *
-import OpenGLTestCase
-from SpriteManager import *
+from pygameOpenGLUtil import *
+from pathlib import Path
 
+image_path = str(Path(__file__).parent/"test.png")
+image2_path = str(Path(__file__).parent/"test3.png")
 
-def make_spritemap():
-    image = pygame.image.load("test.png")
-    return SpriteMap(image)
+class SpriteMapTests(OpenGLTestCase):
 
+    def make_spritemap(self):
+        image = pygame.image.load(image_path)
+        return SpriteMap(image)
 
-class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
     def setUp(self):
         self.set_render_size(1, 1)
 
     def test_spritemap_bind_binds_a_texture(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
 
         spritemap.bind()
 
@@ -25,23 +27,23 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         self.assertNotEqual(boundTexture, 0)
 
     def test_spritemap_glTexture_non_zero(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
 
         self.assertTrue(spritemap.glTexture > 0)
 
     def test_spritemap_glTexture_is_valid_texture(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
 
         self.assertTrue(glIsTexture(spritemap.glTexture))
 
     def test_spritemap_constructor_unbinds_texture(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
 
         boundTexture = glGetIntegerv(GL_TEXTURE_BINDING_2D)
         self.assertEqual(boundTexture, 0)
 
     def test_unbind_unbinds_texture(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
 
         spritemap.bind()
         spritemap.unbind()
@@ -50,7 +52,7 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         self.assertEqual(boundTexture, 0)
 
     def test_init_loads_image_into_texture(self):
-        image = pygame.image.load("test.png")
+        image = pygame.image.load(image_path)
         spritemap = SpriteMap(image)
         image_bytes = pygame.image.tostring(image, "RGBA", True)
         spritemap.bind()
@@ -60,7 +62,7 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         self.assertEqual(image_bytes, stored_bytes)
 
     def test_del_unloads_texture_from_gpu_memory(self):
-        spritemap = make_spritemap()
+        spritemap = self.make_spritemap()
         glTexture = spritemap.glTexture
 
         del spritemap
@@ -68,19 +70,19 @@ class SpriteMapTests(OpenGLTestCase.OpenGLTestCase):
         self.assertFalse(glIsTexture(glTexture))
 
     def test_init_sets_correct_width(self):
-        image = pygame.image.load("test.png")
+        image = pygame.image.load(image_path)
         spritemap = SpriteMap(image)
         self.assertEqual(spritemap.width, 512)
 
     def test_init_sets_correct_height(self):
-        image = pygame.image.load("test.png")
+        image = pygame.image.load(image_path)
         spritemap = SpriteMap(image)
         self.assertEqual(spritemap.height, 319)
 
     def load_image_test_setup(self):
-        image = pygame.image.load("test.png")
+        image = pygame.image.load(image_path)
         spritemap = SpriteMap(image)
-        image2 = pygame.image.load("test3.png")
+        image2 = pygame.image.load(image2_path)
         spritemap.load_image(image2)
         return spritemap, image2
 
