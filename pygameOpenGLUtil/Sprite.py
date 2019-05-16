@@ -13,6 +13,7 @@ class Sprite:
         self.spritemap_x = 0
         self.spritemap_y = 0
         self.manager = sprite_manager
+        # Should add this sprite to the manager
 
     @property
     def spritemap(self):

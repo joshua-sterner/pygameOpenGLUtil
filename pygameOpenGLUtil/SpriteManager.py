@@ -10,13 +10,13 @@ class SpriteManager:
         # Dictionary of lists of Sprites indexed by SpriteMap
         self.sprites = {}
 
-    def create_sprite(self):
-        """Returns a new Sprite object managed by this SpriteManager."""
+    def add_sprite(self, sprite):
+        """adds a Sprite object to this SpriteManager."""
         pass
 
     def remove_sprite(self, sprite):
         """Removes a Sprite object from this SpriteManager."""
-        # perhaps set sprite.manager to None to mark it as dead?
+        # should set sprite.manager to None
         pass
 
     def _spritemap_changed(self, sprite, old_spritemap):
