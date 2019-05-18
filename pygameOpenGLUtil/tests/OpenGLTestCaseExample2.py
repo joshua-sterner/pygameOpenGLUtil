@@ -29,9 +29,6 @@ def renderImage(image):
     vertex_position_attribute_location = 0
     uv_attribute_location = 1
     
-    # glVertexAttribPointer basically works in the same way as glVertexPointer with two exceptions:
-    #   First, it can be used to set the data source for any vertex attributes.
-    #   Second, it has an option to normalize the data, which I have set to GL_FALSE.
     glVertexAttribPointer(vertex_position_attribute_location, 2, GL_FLOAT, GL_FALSE, sizeof(c_float)*4, c_void_p(0))
     # vertex attributes need to be enabled
     glEnableVertexAttribArray(0)
@@ -84,9 +81,6 @@ def renderImage(image):
     """, GL_FRAGMENT_SHADER)
     
     shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
-
-
-    glEnableClientState(GL_VERTEX_ARRAY)
 
     # Enable alpha blending
     glEnable(GL_BLEND)
