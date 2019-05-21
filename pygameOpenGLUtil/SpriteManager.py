@@ -12,7 +12,12 @@ class SpriteManager:
 
     def add_sprite(self, sprite):
         """adds a Sprite object to this SpriteManager."""
-        self.sprites[sprite.spritemap()] = [sprite]
+        if(sprite.spritemap in self.sprites):
+            self.sprites[sprite.spritemap].add(sprite)
+        else:
+            self.sprites[sprite.spritemap] = set([sprite])
+
+        # self.sprites[sprite.spritemap] = set([sprite])
 
     def remove_sprite(self, sprite):
         """Removes a Sprite object from this SpriteManager."""
