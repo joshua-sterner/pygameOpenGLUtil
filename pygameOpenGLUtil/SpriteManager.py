@@ -12,7 +12,7 @@ class SpriteManager:
 
     def add_sprite(self, sprite):
         """adds a Sprite object to this SpriteManager."""
-        pass
+        self.sprites[sprite.spritemap()] = [sprite]
 
     def remove_sprite(self, sprite):
         """Removes a Sprite object from this SpriteManager."""
