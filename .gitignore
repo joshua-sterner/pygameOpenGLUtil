@@ -1,4 +1,6 @@
 .*.kra
 __pycache__
 test_results
+.pytest_cache/
+df
 *.vscode
