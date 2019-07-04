@@ -3,7 +3,7 @@ from OpenGL.GL import *
 
 
 class Sprite:
-    def __init__(self, sprite_manager):
+    def __init__(self, sprite_manager, texture):
         self.width = 0
         self.height = 0
         self.x = 0
@@ -29,3 +29,8 @@ class Sprite:
 
         # Notify manager of change from old spritemap
         self.manager._spritemap_changed(self, old_spritemap)
+    
+    #Change the spritemap to a new spritemap. 
+    def new_spritemap(self, texture):
+        self._spritemap = texture
+
