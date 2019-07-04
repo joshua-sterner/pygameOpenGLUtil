@@ -1,6 +1,5 @@
 import pygame
 import pytest
-import unittest
 from OpenGL.GL import *
 from pygameOpenGLUtil import *
 from pathlib import Path
