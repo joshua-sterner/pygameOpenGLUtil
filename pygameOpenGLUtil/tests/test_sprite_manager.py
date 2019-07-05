@@ -13,17 +13,17 @@ def baseline():
     # This is not a sprite map
     image2_path = str(Path(__file__).parent/"test3.png")
 
-    sprite_map_1 = pygame.image.load(image_path)
-    sprite_map_2 = pygame.image.load(image2_path)
+    spritemap_1 = pygame.image.load(image_path)
+    spritemap_2 = pygame.image.load(image2_path)
 
     # Create one sprite Managers
     test_sprite_manager = SpriteManager()
 
     # Create three sprites
-    test_sprite_one = Sprite(test_sprite_manager, sprite_map_1)
-    test_sprite_two = Sprite(test_sprite_manager, sprite_map_1)
+    test_sprite_one = Sprite(test_sprite_manager, spritemap_1)
+    test_sprite_two = Sprite(test_sprite_manager, spritemap_1)
     # This one has a different sprite map and image
-    test_sprite_three = Sprite(test_sprite_manager, sprite_map_2)
+    test_sprite_three = Sprite(test_sprite_manager, spritemap_2)
 
     # Returns a list with references to the three objects created
     return [test_sprite_manager,  # Index 0 is the Sprite Manager
@@ -56,9 +56,25 @@ def test_remove_sprite(baseline):
 
     # After removing the only sprite with that sprite map check if spritemap is
     # still a key value in the dict.
-    assert (baseline[0]._sprite_map_in_dict(baseline[1][0])) == False
+    assert (baseline[0]._spritemap_in_dict(baseline[1][0])) == False
 
     # Try and remove something that doesn't exist. This should throw a key
     # error, if it does not pytest will fail.
     with pytest.raises(KeyError):
         baseline[0].remove_sprite(baseline[1][0])
+
+
+def test_spritemap_changed(baseline):
+	# Add Sprites
+    baseline[0].add_sprite(baseline[1][0])
+
+    sprite = baseline[1][0]
+    old_spritemap = sprite.spritemap
+
+    # Create a new sprite map.
+    # This is not an actaul spritemap.
+    image_path = str(Path(__file__).parent/"test3.png")
+    sprite_map_2 = pygame.image.load(image_path)
+
+    # Change spritemap
+    # baseline[1][0].spritemap(sprite_map_2)
