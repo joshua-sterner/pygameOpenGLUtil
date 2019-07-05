@@ -73,7 +73,10 @@ def test_spritemap_changed(baseline):
     # Create a new sprite map.
     # This is not an actaul spritemap.
     image_path = str(Path(__file__).parent/"test3.png")
-    sprite_map_2 = pygame.image.load(image_path)
+    spritemap_2 = pygame.image.load(image_path)
 
     # Change spritemap
-    baseline[1][0].spritemap(sprite_map_2)
+    baseline[1][0].spritemap = spritemap_2
+
+	#Test comment
+	
