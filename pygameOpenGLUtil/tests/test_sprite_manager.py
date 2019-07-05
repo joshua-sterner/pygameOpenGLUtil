@@ -77,6 +77,4 @@ def test_spritemap_changed(baseline):
 
     # Change spritemap
     baseline[1][0].spritemap = spritemap_2
-
-	#Test comment
 	
