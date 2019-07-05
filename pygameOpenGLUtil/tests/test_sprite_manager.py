@@ -8,7 +8,9 @@ from pathlib import Path
 @pytest.fixture
 def baseline():
     # Create two "Fake sprite maps" with random images
+    # This is not a sprite map
     image_path = str(Path(__file__).parent/"test.png")
+    # This is not a sprite map
     image2_path = str(Path(__file__).parent/"test3.png")
 
     sprite_map_1 = pygame.image.load(image_path)
@@ -31,24 +33,32 @@ def baseline():
 def test_add_sprite(baseline):
     # Check if you can add a sprite
     baseline[0].add_sprite(baseline[1][0])
+    assert (baseline[0]._sprite_in_dict(baseline[1][0])) == True
+
     # Check if you can add another sprite from the same sprite map
     baseline[0].add_sprite(baseline[1][1])
+    assert (baseline[0]._sprite_in_dict(baseline[1][1])) == True
 
     # Check if you can add another sprite from a different sprite map
     baseline[0].add_sprite(baseline[1][2])
+    assert (baseline[0]._sprite_in_dict(baseline[1][2])) == True
 
 
 def test_remove_sprite(baseline):
-    #Add a sprite
+    # Add a sprite
     baseline[0].add_sprite(baseline[1][0])
-    # Try and remove it
+    # Remove Sprite
     baseline[0].remove_sprite(baseline[1][0])
-    # Check if Sprite Manger = None for the sprite removed. 
+    # Check if Sprite is still there
+    assert (baseline[0]._sprite_in_dict(baseline[1][0])) == False
+    # Check if Sprite Manger = None for the sprite removed.
     assert (baseline[1][0].manager) == None
 
-    #Try and remove something that doesn't exist. 
-    baseline[0].remove_sprite(baseline[1][1])
+    # After removing the only sprite with that sprite map check if spritemap is
+    # still a key value in the dict.
+    assert (baseline[0]._sprite_map_in_dict(baseline[1][0])) == False
 
-
-if __name__ == "__main__":
-    unittest.main()
+    # Try and remove something that doesn't exist. This should throw a key
+    # error, if it does not pytest will fail.
+    with pytest.raises(KeyError):
+        baseline[0].remove_sprite(baseline[1][0])
