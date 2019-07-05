@@ -33,15 +33,15 @@ def baseline():
 def test_add_sprite(baseline):
     # Check if you can add a sprite
     baseline[0].add_sprite(baseline[1][0])
-    assert (baseline[0]._sprite_in_dict(baseline[1][0])) == True
+    assert (baseline[0].has_sprite(baseline[1][0])) == True
 
     # Check if you can add another sprite from the same sprite map
     baseline[0].add_sprite(baseline[1][1])
-    assert (baseline[0]._sprite_in_dict(baseline[1][1])) == True
+    assert (baseline[0].has_sprite(baseline[1][1])) == True
 
     # Check if you can add another sprite from a different sprite map
     baseline[0].add_sprite(baseline[1][2])
-    assert (baseline[0]._sprite_in_dict(baseline[1][2])) == True
+    assert (baseline[0].has_sprite(baseline[1][2])) == True
 
 
 def test_remove_sprite(baseline):
@@ -50,13 +50,13 @@ def test_remove_sprite(baseline):
     # Remove Sprite
     baseline[0].remove_sprite(baseline[1][0])
     # Check if Sprite is still there
-    assert (baseline[0]._sprite_in_dict(baseline[1][0])) == False
+    assert (baseline[0].has_sprite(baseline[1][0])) == False
     # Check if Sprite Manger = None for the sprite removed.
     assert (baseline[1][0].manager) == None
 
     # After removing the only sprite with that sprite map check if spritemap is
     # still a key value in the dict.
-    assert (baseline[0]._spritemap_in_dict(baseline[1][0])) == False
+    assert (baseline[0].has_spritemap(baseline[1][0])) == False
 
     # Try and remove something that doesn't exist. This should throw a key
     # error, if it does not pytest will fail.
@@ -68,8 +68,7 @@ def test_spritemap_changed(baseline):
 	# Add Sprites
     baseline[0].add_sprite(baseline[1][0])
 
-    sprite = baseline[1][0]
-    old_spritemap = sprite.spritemap
+    old_spritemap = baseline[1][0].spritemap
 
     # Create a new sprite map.
     # This is not an actaul spritemap.
@@ -77,4 +76,4 @@ def test_spritemap_changed(baseline):
     sprite_map_2 = pygame.image.load(image_path)
 
     # Change spritemap
-    # baseline[1][0].spritemap(sprite_map_2)
+    baseline[1][0].spritemap(sprite_map_2)
