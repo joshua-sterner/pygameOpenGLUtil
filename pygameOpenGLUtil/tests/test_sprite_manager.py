@@ -98,9 +98,9 @@ def test_spritemap_changed(baseline):
     sprite_one.spritemap = new_spritemap
 
     # Check Sprite's Key has changed in Sprite Manager
-    assert (sprite_one in sprite_manager._sprites[old_spritemap]) == False
+    assert (sprite_one in sprite_manager.sprites[old_spritemap]) == False
 
     # Check if Sprite's Key in Sprite Manager is new Sprite Map
     assert (sprite_one in 
-            sprite_manager._sprites[new_spritemap]) == True
+            sprite_manager.sprites[new_spritemap]) == True
     
