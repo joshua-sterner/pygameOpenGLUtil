@@ -12,7 +12,7 @@ class SpriteManager:
 
     def add_sprite(self, sprite):
         """adds a Sprite object to this SpriteManager."""
-        if(self.has_sprite(sprite)):
+        if(self.has_spritemap(sprite.spritemap)):
             self.sprites[sprite.spritemap].add(sprite)
         else:
             self.sprites[sprite.spritemap] = set([sprite])
@@ -46,8 +46,8 @@ class SpriteManager:
         
 
     #Checks if sprite map in dictionary.
-    def has_spritemap(self, sprite):
-        return sprite.spritemap in self.sprites
+    def has_spritemap(self, spritemap):
+        return spritemap in self.sprites
     
     #Checks if sprite is in the set represented by it's spritemap
     def has_sprite(self, sprite):

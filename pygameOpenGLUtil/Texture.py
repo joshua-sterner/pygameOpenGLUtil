@@ -23,6 +23,8 @@ class Texture:
         self.bind()
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0,
                      GL_RGBA, GL_UNSIGNED_BYTE, image_data)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         self.unbind()
 
     def bind(self):

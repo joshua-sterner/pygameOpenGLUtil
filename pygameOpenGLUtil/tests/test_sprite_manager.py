@@ -45,12 +45,14 @@ def test_add_sprite(baseline):
 
     # Check if you can add another sprite from the same sprite map
     sprite_manager.add_sprite(sprite_two)
+    assert (sprite_manager.has_sprite(sprite_one)) == True
     assert (sprite_manager.has_sprite(sprite_two)) == True
 
     # Check if you can add another sprite from a different sprite map
     sprite_manager.add_sprite(sprite_three)
+    assert (sprite_manager.has_sprite(sprite_one)) == True
+    assert (sprite_manager.has_sprite(sprite_two)) == True
     assert (sprite_manager.has_sprite(sprite_three)) == True
-
 
 def test_remove_sprite(baseline):
     #Assign variables for readability. 
