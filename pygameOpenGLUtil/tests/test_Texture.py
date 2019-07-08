@@ -7,8 +7,8 @@ from pygameOpenGLUtil import *
 from pathlib import Path
 from OpenGLTestUtils import *
 
-image_path = str(Path(__file__).parent/"test.png")
-image2_path = str(Path(__file__).parent/"test3.png")
+image_path = str(Path(__file__).parent/"images/test.png")
+image2_path = str(Path(__file__).parent/"images/test3.png")
 
 @pytest.fixture(autouse=True)
 def setup(request):
