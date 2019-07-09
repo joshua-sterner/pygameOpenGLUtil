@@ -7,9 +7,9 @@ from pathlib import Path
 def baseline():
     # Create two "Fake sprite maps" with random images
     # This is not a sprite map
-    image_path = str(Path(__file__).parent/"images/test.png")
+    image_path = str(Path(__file__).parent/"tests/images/test.png")
     # This is not a sprite map
-    image2_path = str(Path(__file__).parent/"images/test3.png")
+    image2_path = str(Path(__file__).parent/"tests/images/test3.png")
 
     spritemap_1 = pygame.image.load(image_path)
     spritemap_2 = pygame.image.load(image2_path)

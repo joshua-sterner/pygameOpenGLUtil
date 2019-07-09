@@ -164,8 +164,7 @@ def test_spritemap_changed_in_manager(baseline):
     assert (sprite_one in sprite_manager.sprites[old_spritemap]) == False
 
     # Check if Sprite's Key in Sprite Manager is new Sprite Map
-    assert (sprite_one in 
-            sprite_manager.sprites[new_spritemap]) == True
+    assert (sprite_one in sprite_manager.sprites[new_spritemap]) == True
 
 def test_sprites_new_key_in_manager(baseline):
     #Assign variables for readability. 
@@ -189,5 +188,4 @@ def test_sprites_new_key_in_manager(baseline):
     sprite_one.spritemap = new_spritemap
 
     # Check if Sprite's Key in Sprite Manager is new Sprite Map
-    assert (sprite_one in 
-            sprite_manager.sprites[new_spritemap]) == True
+    assert (sprite_one in sprite_manager.sprites[new_spritemap]) == True
