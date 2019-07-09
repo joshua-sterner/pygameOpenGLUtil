@@ -11,11 +11,24 @@ class SpriteManager:
         self.sprites = {}
 
     def add_sprite(self, sprite):
-        """adds a Sprite object to this SpriteManager."""
+        """adds a Sprite object to this SpriteManager."""            
         if(self.has_spritemap(sprite.spritemap)):
-            self.sprites[sprite.spritemap].add(sprite)
+            if(self.has_sprite(sprite)):
+                raise KeyError("Sprite already exists in the Manager.")
+            #Check if sprite already has a manager
+            if(self._sprite_has_manager(sprite)):
+                self.sprites[sprite.spritemap].add(sprite)
+                sprite.manager = self
+            else:
+                raise AttributeError("This Sprite already has a Manager.")
         else:
-            self.sprites[sprite.spritemap] = set([sprite])
+            #Check if sprite already has a manager
+            if(self._sprite_has_manager(sprite)):
+                self.sprites[sprite.spritemap] = set([sprite])
+                sprite.manager = self
+            else:
+                raise AttributeError("This Sprite already has a Manager.")  
+
 
     def remove_sprite(self, sprite):
         """Removes a Sprite object from this SpriteManager."""
@@ -53,5 +66,15 @@ class SpriteManager:
     def has_sprite(self, sprite):
         if(sprite.spritemap in self.sprites):
             return sprite in self.sprites[sprite.spritemap]
+        else:
+            return False
+    
+    # Check if sprite already has a manager. Returns true if it doesn't or if
+    # the manager it has is this sprite manager
+    def _sprite_has_manager(self, sprite):
+        if(sprite.manager == None):
+            return True
+        elif(sprite.manager == self):
+            return True
         else:
             return False
