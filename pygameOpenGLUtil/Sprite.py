@@ -3,7 +3,7 @@ from OpenGL.GL import *
 
 
 class Sprite:
-    def __init__(self, sprite_manager, sprite_map):
+    def __init__(self, sprite_map):
         self.width = 0
         self.height = 0
         self.x = 0
@@ -12,7 +12,7 @@ class Sprite:
         self._spritemap = sprite_map
         self.spritemap_x = 0
         self.spritemap_y = 0
-        self.manager = sprite_manager
+        self.manager = None
         # Should add this sprite to the manager
 
     @property
