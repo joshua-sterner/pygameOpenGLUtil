@@ -88,7 +88,7 @@ def test_sprites_manager_pointer(baseline):
     sprite_three = baseline[1][2]
 
     sprite_manager.add_sprite(sprite_one)
-    assert (sprite_one.manager == sprite_manager)
+    assert (sprite_one._manager == sprite_manager)
 
 def test_remove_sprite(baseline):
     #Assign variables for readability. 
@@ -113,7 +113,7 @@ def test_removed_sprites_manager(baseline):
     sprite_manager.remove_sprite(sprite_one)
 
     # Check if Sprite Manger = None for the sprite removed.
-    assert (sprite_one.manager) == None
+    assert (sprite_one._manager) == None
 
 def test_spritemap_removed_after_last_sprite(baseline):
     #Assign variables for readability. 
@@ -162,9 +162,6 @@ def test_spritemap_changed_in_manager(baseline):
 
     # Check Sprite's Key has changed in Sprite Manager
     assert (sprite_one in sprite_manager.sprites[old_spritemap]) == False
-
-    # Check if Sprite's Key in Sprite Manager is new Sprite Map
-    assert (sprite_one in sprite_manager.sprites[new_spritemap]) == True
 
 def test_sprites_new_key_in_manager(baseline):
     #Assign variables for readability. 

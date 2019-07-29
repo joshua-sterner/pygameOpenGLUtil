@@ -12,7 +12,7 @@ class Sprite:
         self._spritemap = sprite_map
         self.spritemap_x = 0
         self.spritemap_y = 0
-        self.manager = None
+        self._manager = None
         # Should add this sprite to the manager
 
     @property
@@ -28,4 +28,4 @@ class Sprite:
         self._spritemap = spritemap
 
         # Notify manager of change from old spritemap
-        self.manager._spritemap_changed(self, old_spritemap)
+        self._manager._spritemap_changed(self, old_spritemap)

@@ -18,14 +18,14 @@ class SpriteManager:
             #Check if sprite already has a manager
             if(self._sprite_has_manager(sprite)):
                 self.sprites[sprite.spritemap].add(sprite)
-                sprite.manager = self
+                sprite._manager = self
             else:
                 raise AttributeError("This Sprite already has a Manager.")
         else:
             #Check if sprite already has a manager
             if(self._sprite_has_manager(sprite)):
                 self.sprites[sprite.spritemap] = set([sprite])
-                sprite.manager = self
+                sprite._manager = self
             else:
                 raise AttributeError("This Sprite already has a Manager.")  
 
@@ -41,7 +41,7 @@ class SpriteManager:
             except KeyError:
                 raise KeyError("Sprite not in the SpriteManager")
             #Set Sprite's Sprite Manager to None.
-            sprite.manager = None
+            sprite._manager = None
             #Check if this is the last sprite in the set. If so delete the key.
             if(len(self.sprites[spritemap]) == 0):
                 del self.sprites[spritemap]
@@ -72,9 +72,9 @@ class SpriteManager:
     # Check if sprite already has a manager. Returns true if it doesn't or if
     # the manager it has is this sprite manager
     def _sprite_has_manager(self, sprite):
-        if(sprite.manager == None):
+        if(sprite._manager == None):
             return True
-        elif(sprite.manager == self):
+        elif(sprite._manager == self):
             return True
         else:
             return False
