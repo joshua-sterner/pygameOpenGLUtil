@@ -8,32 +8,16 @@ from OpenGL.GL import shaders
 class SpriteRenderer:
     """Renders the sprites in a SpriteManager"""
 
+    # Shader program should be a singleton (pygame only allows the creation of a single window, thus there will only be one OpenGL context.)
     _shader_program = None
 
     def __init__(self, sprite_manager):
         self._sprite_manager = sprite_manager
-        self._vbo = glGenBuffers(1)
-        if (SpriteRenderer._shader_program == None):
-            SpriteRenderer._shader_program = self._make_shader_program()
-
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LEQUAL)
-
         self._vertex_data = np.zeros(0, np.float32)
 
-        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
-
-        # XYZ
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(0))
-        glEnableVertexAttribArray(0)
-
-        # UV
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(sizeof(c_float)*3))
-        glEnableVertexAttribArray(1)
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        self._ensure_shader_program_ready()
+        self._enable_gl_features()
+        self._setup_vbo()
 
     def __del__(self):
         glDeleteBuffers(1, np.array(self._vbo))
@@ -47,6 +31,36 @@ class SpriteRenderer:
         for spritemap in self._sprite_manager.sprites:
             self._render_spritemap(spritemap)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+    def _setup_vbo(self):
+        self._vbo = glGenBuffers(1)
+
+        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
+        
+        # vertex format: x,y,z, u,v
+
+        # XYZ
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(0))
+        glEnableVertexAttribArray(0)
+
+        # UV
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(sizeof(c_float)*3))
+        glEnableVertexAttribArray(1)
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+    def _enable_gl_features(self):
+        # alpha blending is required for transparent textures
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+        # depth testing is required for z axis positioning
+        glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LEQUAL)
+
+    def _ensure_shader_program_ready(self):
+        if (SpriteRenderer._shader_program == None):
+            SpriteRenderer._shader_program = self._make_shader_program()
 
     def _make_shader_program(self):
         vertex_shader = shaders.compileShader("""
