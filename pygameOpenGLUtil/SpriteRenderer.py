@@ -7,9 +7,48 @@ from OpenGL.GL import shaders
 
 class SpriteRenderer:
     """Renders the sprites in a SpriteManager"""
+
+    _shader_program = None
+
     def __init__(self, sprite_manager):
         self._sprite_manager = sprite_manager
         self._vbo = glGenBuffers(1)
+        if (SpriteRenderer._shader_program == None):
+            SpriteRenderer._shader_program = self._make_shader_program()
+
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LEQUAL)
+
+        self._vertex_data = np.zeros(0, np.float32)
+
+        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
+
+        # XYZ
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(0))
+        glEnableVertexAttribArray(0)
+
+        # UV
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(sizeof(c_float)*3))
+        glEnableVertexAttribArray(1)
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+    def __del__(self):
+        glDeleteBuffers(1, np.array(self._vbo))
+
+    def render(self):
+        self._width = pygame.display.get_surface().get_width()
+        self._height = pygame.display.get_surface().get_height()
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
+        glUseProgram(SpriteRenderer._shader_program)
+        for spritemap in self._sprite_manager.sprites:
+            self._render_spritemap(spritemap)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+    def _make_shader_program(self):
         vertex_shader = shaders.compileShader("""
         #version 330
         layout(location = 0) in vec3 pos;
@@ -29,31 +68,7 @@ class SpriteRenderer:
             fragColor = texture(tex, uv);
         }
         """, GL_FRAGMENT_SHADER)
-        self._shader_program = shaders.compileProgram(vertex_shader, fragment_shader)
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LEQUAL)
-        self._vertex_data = np.zeros(0, np.float32)
-        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(0))
-        glEnableVertexAttribArray(0)
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(c_float)*5, c_void_p(sizeof(c_float)*3))
-        glEnableVertexAttribArray(1)
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
-
-    def __del__(self):
-        glDeleteBuffers(1, np.array(self._vbo))
-
-    def render(self):
-        self._width = pygame.display.get_surface().get_width()
-        self._height = pygame.display.get_surface().get_height()
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        glBindBuffer(GL_ARRAY_BUFFER, self._vbo)
-        glUseProgram(self._shader_program)
-        for spritemap in self._sprite_manager.sprites:
-            self._render_spritemap(spritemap)
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        return shaders.compileProgram(vertex_shader, fragment_shader)
 
     def _render_spritemap(self, spritemap):
         spritemap.bind()
