@@ -20,6 +20,10 @@ test_image_path = str(Path(__file__).parent/"images/test.png")
 def test_render_one_sprite():
     expected_image = pygame.image.load(color_grid_image_path)
     openGLTestSetup(1024, 1024)
+    
+    # reset shader program id to none since the OpenGL context changed
+    SpriteRenderer._shader_program = None
+
     spritemap = Texture(expected_image)
     sprite_manager = SpriteManager()
     sprite = Sprite(spritemap)
@@ -35,6 +39,10 @@ def test_render_two_adjacent_sprites_from_same_spritemap():
     expected_image = load_image(
         "test_render_two_adjacent_sprites_from_same_spritemap.png")
     openGLTestSetup(256, 128)
+
+    # reset shader program id to none since the OpenGL context changed
+    SpriteRenderer._shader_program = None
+    
     color_grid_image = pygame.image.load(color_grid_image_path)
     spritemap = Texture(color_grid_image)
     sprite_manager = SpriteManager()
@@ -59,6 +67,9 @@ def test_render_two_adjacent_sprites_from_different_spritemaps():
     expected_image = load_image(
         "test_render_two_adjacent_sprites_from_different_spritemaps.png")
     openGLTestSetup(256, 128)
+
+    # reset shader program id to none since the OpenGL context changed
+    SpriteRenderer._shader_program = None
 
     sprite_manager = SpriteManager()
     image0 = pygame.image.load(color_grid_image_path)
