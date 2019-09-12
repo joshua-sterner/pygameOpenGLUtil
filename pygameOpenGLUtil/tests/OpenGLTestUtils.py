@@ -18,13 +18,19 @@ def get_rendered_image():
     return glReadPixels(x, y, x + width, y + height, GL_RGB,
                         GL_UNSIGNED_BYTE)
 
-def is_rendered_image(image):
+def is_rendered_image(image, delta=1):
     rendered_image_bytes = get_rendered_image()
     image_bytes = pygame.image.tostring(image, "RGB", True)
-    return rendered_image_bytes == image_bytes
+    if (len(image_bytes) != len(rendered_image_bytes)):
+        return False
+    for i in range(0,len(image_bytes)):
+        difference = image_bytes[i] - rendered_image_bytes[i]
+        if (abs(difference) > delta):
+            return False
+    return True
 
 def save_image(filename):
     result = get_rendered_image()
     x, y, width, height = glGetInteger(GL_VIEWPORT)
-    result_image = pygame.image.fromstring(result, (width, height), "RGB",                                            True)
+    result_image = pygame.image.fromstring(result, (width, height), "RGB", True)
     pygame.image.save(result_image, filename)
