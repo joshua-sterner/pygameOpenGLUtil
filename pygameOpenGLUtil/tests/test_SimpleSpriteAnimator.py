@@ -75,4 +75,12 @@ def test_pause():
     animator = SimpleSpriteAnimator()
     animator.play()
     animator.animate(sprite, 0.5/(24*0.7))
+    #TODO finish this...
 
+def test_loop_false():
+    sprite = MockAnimatedSprite(8, 24)
+    animator = SimpleSpriteAnimator()
+    sprite.current_frame = 6
+    animator.play()
+    animator.animate(sprite, 1.5/24)
+    assert sprite.current_frame == 7

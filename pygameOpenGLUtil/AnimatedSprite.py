@@ -8,6 +8,7 @@ class AnimatedSprite(Sprite):
         self.framerate = framerate
         self.current_frame = 0.0 # The current frame of the animation. May have a fractional component.
         self.animation_handler = animation_handler # Responsible for animation playback, etc
+        self.first_sprite_pos = spritemap_pos
         # must have an animate(sprite, time_delta) method that updates
         # sprite.current_frame as needed
 
